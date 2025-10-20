@@ -9,6 +9,8 @@ import org.example.view.MyPanel;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
     private static Controller instance;
@@ -17,6 +19,7 @@ public class Controller {
     private final MyPanel panel;
     private Point2D firstPoint;
     private Point2D secondPoint;
+
     public static Controller getInstance() {
         synchronized (Controller.class) {
             if (instance == null) {
@@ -32,8 +35,6 @@ public class Controller {
         model.setMyShape(shape);
 
         panel = new MyPanel(this);
-        // TODO: Поменять наблюдатель на более современную реализацию
-        model.addObserver(panel);
 
         frame = new MyFrame();
         frame.setPanel(panel);
@@ -47,6 +48,6 @@ public class Controller {
     }
 
     public void draw(Graphics2D g2) {
-        model.draw(g2);
+        model.draw(g2); panel.repaint();
     }
 }

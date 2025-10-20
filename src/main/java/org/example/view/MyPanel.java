@@ -12,7 +12,7 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 
-public class MyPanel extends JPanel implements Observer {
+public class MyPanel extends JPanel {
     private final Controller controller;
 
     public MyPanel(Controller controller) {
@@ -36,11 +36,6 @@ public class MyPanel extends JPanel implements Observer {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         controller.draw(g2);
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        repaint();
     }
 
 }

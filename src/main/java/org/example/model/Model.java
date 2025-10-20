@@ -2,9 +2,11 @@ package org.example.model;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
-public class Model extends Observable {
+public class Model {
     private MyShape currentShape;
 
     public void setMyShape(MyShape myShape) {
@@ -13,8 +15,6 @@ public class Model extends Observable {
 
     public void changeShape(Point2D x, Point2D y) {
         currentShape.setFrame(x, y);
-        this.setChanged();
-        this.notifyObservers();
     }
 
     public void draw(Graphics2D g) {
