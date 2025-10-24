@@ -33,17 +33,21 @@ public class Controller {
 
         panel = new MyPanel(this);
         // TODO: Поменять наблюдатель на более современную реализацию
-        model.addObserver(panel);
 
         frame = new MyFrame();
         frame.setPanel(panel);
     }
     public void getPointOne(Point2D p){
         firstPoint = p;
+
+        MyShape shape = new MyShape(new Rectangle2D.Double());
+        shape.setFb(new NoFill());
+        model.setMyShape(shape);
     }
     public void getPointTwo(Point2D p){
         secondPoint = p;
         model.changeShape(firstPoint, secondPoint);
+        panel.repaint();
     }
 
     public void draw(Graphics2D g2) {
