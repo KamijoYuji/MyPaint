@@ -10,12 +10,11 @@ import java.util.Observable;
 
 public class Model extends Observable {
     private MyShape currentShape;
-    private List<MyShape> shapeList = new ArrayList<>();
+    private final List<MyShape> shapeList = new ArrayList<>();
 
-    public void setMyShape(MyShape myShape) {
-
+    public void setMyShape(MyShape myShape)
+    {
         this.currentShape = myShape;
-        shapeList.add(currentShape);
     }
 
     public void changeShape(Point2D x, Point2D y) {
@@ -26,5 +25,11 @@ public class Model extends Observable {
     public void draw(Graphics2D g) {
         for(var shape : shapeList)
             shape.draw(g);
+    }
+
+    public void createCurrentShape(MyShape shape) {
+        currentShape = shape;
+        shapeList.add(shape);
+        notifyObservers();
     }
 }

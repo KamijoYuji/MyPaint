@@ -2,6 +2,7 @@ package org.example.model;
 
 import org.example.model.fill.Fill;
 import org.example.model.fill.FillBehavior;
+import org.example.model.fill.NoFill;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -9,7 +10,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
-public class MyShape {
+public class MyShape implements Cloneable{
     private final Color color;
     private RectangularShape shape;
     private FillBehavior fb;
@@ -17,6 +18,14 @@ public class MyShape {
     public MyShape(RectangularShape shape) {
         this.shape = shape;
         color = Color.GRAY;
+        fb = new Fill();
+        fb.setColor(color);
+        fb.setShape(shape);
+    }
+
+    public MyShape(Color color, RectangularShape shape) {
+        this.shape = shape;
+        this.color = color;
         fb = new Fill();
         fb.setColor(color);
         fb.setShape(shape);
@@ -57,5 +66,22 @@ public class MyShape {
     void draw(Graphics2D g) {
         fb.draw(g);
 
+    }
+
+    public MyShape clone() {
+        RectangularShape shape1 = (RectangularShape) this.shape.clone();
+
+        FillBehavior fillBehavior;
+        if(this.fb instanceof Fill)
+            fillBehavior = new Fill();
+        else
+            fillBehavior = new NoFill();
+
+        fillBehavior.setColor(this.color);
+        fillBehavior.setShape(shape1);
+
+        MyShape shape2 = new MyShape(this.color, shape1, fillBehavior);
+
+        return shape2;
     }
 }

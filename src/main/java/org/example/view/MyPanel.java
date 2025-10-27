@@ -12,7 +12,7 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 
-public class MyPanel extends JPanel {
+public class MyPanel extends JPanel implements Observer {
     private final Controller controller;
 
     public MyPanel(Controller controller) {
@@ -20,13 +20,14 @@ public class MyPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent arg0) {
-                controller.getPointOne(arg0.getPoint());
+                controller.createShape(arg0.getPoint());
             }
         });
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent arg0) {
-                controller.getPointTwo(arg0.getPoint());
+                controller.stretchShape(arg0.getPoint());
+                repaint();
             }
         });
     }
@@ -38,4 +39,8 @@ public class MyPanel extends JPanel {
         controller.draw(g2);
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        repaint();
+    }
 }

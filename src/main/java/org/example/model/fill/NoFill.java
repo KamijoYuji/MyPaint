@@ -29,4 +29,11 @@ public class NoFill implements FillBehavior {
     public void setShape(RectangularShape s) {
         shape = s;
     }
+
+    @Override
+    public FillBehavior copy() {
+        NoFill copy = new NoFill();
+        copy.setColor(this.color);
+        return copy;
+    }
 }

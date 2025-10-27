@@ -27,4 +27,10 @@ public class Fill implements FillBehavior {
         shape = s;
     }
 
+    @Override
+    public FillBehavior copy() {
+        Fill copy = new Fill();
+        copy.setColor(this.color);
+        return copy;
+    }
 }
