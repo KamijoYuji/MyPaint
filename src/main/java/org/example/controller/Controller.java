@@ -18,10 +18,7 @@ public class Controller {
     private final Model model;
     private final MyFrame frame;
     private final MyPanel panel;
-    private Point2D firstPoint;
-    private Point2D secondPoint;
-    private ActionDraw actionDraw;
-
+    private MenuState menuState;
     public static Controller getInstance() {
         synchronized (Controller.class) {
             if (instance == null) {
@@ -32,24 +29,20 @@ public class Controller {
     }
     private Controller() {
         model = new Model();
-        MyShape shape = ShapeFactory.createShape(Color.gray, ShapeType.RECTANGLE);
-        actionDraw = new ActionDraw(shape,model);
-        shape.setFb(new NoFill());
 
         panel = new MyPanel(this);
         // TODO: Поменять наблюдатель на более современную реализацию
 
         frame = new MyFrame();
         frame.setPanel(panel);
+        menuState = new MenuState(model);
     }
 
     public void stretchShape(Point2D point){
-        firstPoint = point;
-        actionDraw.stretchShape(point);
+        menuState.stretchShape(point);
     }
     public void createShape(Point2D point){
-        secondPoint = point;
-        actionDraw.createShape(point);
+        menuState.createShape(point);
     }
 
     public void draw(Graphics2D g2) {
