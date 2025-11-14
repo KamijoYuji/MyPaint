@@ -7,26 +7,27 @@ import org.example.model.ShapeFactory;
 import org.example.model.ShapeType;
 import org.example.model.fill.Fill;
 import org.example.model.fill.FillBehavior;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class MenuState {
-    private FillBehavior fill = new Fill();
-    private Color color = Color.GRAY;
-    private ShapeType shapeType = ShapeType.RECTANGLE;
+    private FillBehavior fill;
+    private Color color;
     private final ActionDraw actionDraw;
+    private MyShape selectedShape;
 
-    public MenuState(Model model){
-        MyShape shape = ShapeFactory.createShape(color, shapeType);
-        actionDraw = new ActionDraw(shape,model);
-        shape.setFb(fill);
+    public MenuState(Model model, ShapeType type, Color color, FillBehavior fill){
+        selectedShape = ShapeFactory.createShape(color, type);
+        actionDraw = new ActionDraw(selectedShape, model);
+        selectedShape.setFb(fill);
+    }
+
+    public MyShape getSelectedShape() {
+        return selectedShape;
     }
 
     public void stretchShape(Point2D point){
         actionDraw.stretchShape(point);
     }
-    public void createShape(Point2D point){
-        actionDraw.createShape(point);
-    }
+    public void createShape(Point2D point){ actionDraw.createShape(point); }
 }

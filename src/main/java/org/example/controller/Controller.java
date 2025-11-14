@@ -18,7 +18,7 @@ public class Controller {
     private final Model model;
     private final MyFrame frame;
     private final MyPanel panel;
-    private MenuState menuState;
+    private MenuController menuController;
     public static Controller getInstance() {
         synchronized (Controller.class) {
             if (instance == null) {
@@ -32,17 +32,17 @@ public class Controller {
 
         panel = new MyPanel(this);
         // TODO: Поменять наблюдатель на более современную реализацию
-
+        menuController = MenuController.getInstance(model);
         frame = new MyFrame();
+        frame.setJMenuBar(menuController.getMenuBar());
         frame.setPanel(panel);
-        menuState = new MenuState(model);
     }
 
     public void stretchShape(Point2D point){
-        menuState.stretchShape(point);
+        menuController.stretchShape(point);
     }
     public void createShape(Point2D point){
-        menuState.createShape(point);
+        menuController.createShape(point);
     }
 
     public void draw(Graphics2D g2) {
