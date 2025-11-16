@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class Model extends Observable {
+public class Model extends Subject {
     private MyShape currentShape;
     private final List<MyShape> shapeList = new ArrayList<>();
 
@@ -18,6 +18,7 @@ public class Model extends Observable {
     public void changeShape(Point2D x, Point2D y) {
         if(currentShape!=null)
             currentShape.setFrame(x, y);
+        notifyObservers();
     }
 
     public void draw(Graphics2D g) {

@@ -1,6 +1,7 @@
 package org.example.view;
 
 import org.example.controller.Controller;
+import org.example.model.ModelObserver;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,8 +13,13 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 
-public class MyPanel extends JPanel implements Observer {
+public class MyPanel extends JPanel implements ModelObserver {
     private final Controller controller;
+
+    @Override
+    public void modelChanged() {
+        repaint();
+    }
 
     public MyPanel(Controller controller) {
         this.controller = controller;
@@ -37,10 +43,5 @@ public class MyPanel extends JPanel implements Observer {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         controller.draw(g2);
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        repaint();
     }
 }
