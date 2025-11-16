@@ -1,23 +1,21 @@
 package org.example.view;
 
 import org.example.controller.Controller;
-import org.example.model.ModelObserver;
+import org.example.model.MyObserver;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.JPanel;
 
 
-public class MyPanel extends JPanel implements ModelObserver {
+public class MyPanel extends JPanel implements MyObserver {
     private final Controller controller;
 
     @Override
-    public void modelChanged() {
+    public void changed() {
         repaint();
     }
 
@@ -33,7 +31,6 @@ public class MyPanel extends JPanel implements ModelObserver {
             @Override
             public void mouseDragged(MouseEvent arg0) {
                 controller.stretchShape(arg0.getPoint());
-                repaint();
             }
         });
     }

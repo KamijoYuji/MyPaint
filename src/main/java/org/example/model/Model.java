@@ -5,13 +5,14 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Model extends Subject {
+public class Model extends MyObservable {
     private MyShape currentShape;
     private final List<MyShape> shapeList = new ArrayList<>();
 
     public void setMyShape(MyShape myShape)
     {
         this.currentShape = myShape;
+
     }
 
     public void changeShape(Point2D x, Point2D y) {
@@ -23,6 +24,7 @@ public class Model extends Subject {
     public void draw(Graphics2D g) {
         for(var shape : shapeList)
             shape.draw(g);
+        notifyObservers();
     }
 
     public void createCurrentShape(MyShape shape) {

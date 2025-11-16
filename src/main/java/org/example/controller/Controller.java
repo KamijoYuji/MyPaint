@@ -30,6 +30,7 @@ public class Controller {
         frame = new MyFrame();
         frame.setJMenuBar(menuController.getMenuBar());
         frame.setPanel(panel);
+        model.addObserver(panel);
     }
 
     public void stretchShape(Point2D point){
