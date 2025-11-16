@@ -13,7 +13,6 @@ public class MenuController {
     private static MenuController instance;
     JMenuBar menu;
     MenuState menuState;
-    Model model;
 
     public static MenuController getInstance(Model model) {
         if(instance == null)
@@ -22,7 +21,6 @@ public class MenuController {
     }
 
     private MenuController(Model model){
-        this.model = model;
         menuState = new MenuState(model,ShapeType.RECTANGLE, Color.RED, new Fill());
         JMenu shapeMenu = createShapeMenu();
         JMenu colorMenu = createColorMenu();
