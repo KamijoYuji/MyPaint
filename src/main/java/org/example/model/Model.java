@@ -1,7 +1,5 @@
 package org.example.model;
 
-import org.example.model.fill.Fill;
-
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

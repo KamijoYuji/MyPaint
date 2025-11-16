@@ -1,24 +1,19 @@
 package org.example.controller;
 
-import org.example.ActionDraw;
+import org.example.controller.menu.MenuController;
 import org.example.model.Model;
-import org.example.model.MyShape;
-import org.example.model.ShapeFactory;
-import org.example.model.ShapeType;
-import org.example.model.fill.NoFill;
 import org.example.view.MyFrame;
 import org.example.view.MyPanel;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 public class Controller {
     private static Controller instance;
     private final Model model;
     private final MyFrame frame;
     private final MyPanel panel;
-    private MenuController menuController;
+    private final MenuController menuController;
     public static Controller getInstance() {
         synchronized (Controller.class) {
             if (instance == null) {

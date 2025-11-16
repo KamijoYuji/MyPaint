@@ -5,7 +5,7 @@ import org.example.model.fill.FillBehavior;
 import java.awt.*;
 
 public class ShapeFactory {
-    public static MyShape createShape(Color color, ShapeType type) {
-        return type.create(color);
+    public static MyShape createShape(Color color, ShapeType type, FillBehavior fillBehavior) {
+        return type.create(color, fillBehavior);
     }
 }

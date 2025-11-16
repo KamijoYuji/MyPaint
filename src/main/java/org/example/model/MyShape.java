@@ -78,8 +78,6 @@ public class MyShape implements Cloneable{
         fillBehavior.setColor(this.color);
         fillBehavior.setShape(shape1);
 
-        MyShape shape2 = new MyShape(this.color, shape1, fillBehavior);
-
-        return shape2;
+        return new MyShape(this.color, shape1, fillBehavior);
     }
 }
