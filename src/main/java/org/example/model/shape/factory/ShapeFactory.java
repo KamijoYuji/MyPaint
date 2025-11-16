@@ -1,6 +1,7 @@
-package org.example.model;
+package org.example.model.shape.factory;
 
-import org.example.model.fill.FillBehavior;
+import org.example.model.shape.MyShape;
+import org.example.model.shape.fill.FillBehavior;
 
 import java.awt.*;
 

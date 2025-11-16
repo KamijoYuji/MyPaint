@@ -1,8 +1,8 @@
-package org.example.model;
+package org.example.model.shape;
 
-import org.example.model.fill.Fill;
-import org.example.model.fill.FillBehavior;
-import org.example.model.fill.NoFill;
+import org.example.model.shape.fill.Fill;
+import org.example.model.shape.fill.FillBehavior;
+import org.example.model.shape.fill.NoFill;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -61,9 +61,8 @@ public class MyShape implements Cloneable{
         shape.setFrameFromDiagonal(x, y);
     }
 
-    void draw(Graphics2D g) {
+    public void draw(Graphics2D g) {
         fb.draw(g);
-
     }
 
     public MyShape clone() {

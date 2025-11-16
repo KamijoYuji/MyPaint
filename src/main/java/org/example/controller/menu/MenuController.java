@@ -1,9 +1,9 @@
 package org.example.controller.menu;
 
 import org.example.model.Model;
-import org.example.model.ShapeType;
-import org.example.model.fill.Fill;
-import org.example.model.fill.NoFill;
+import org.example.model.shape.factory.ShapeType;
+import org.example.model.shape.fill.Fill;
+import org.example.model.shape.fill.NoFill;
 
 import javax.swing.*;
 import java.awt.*;

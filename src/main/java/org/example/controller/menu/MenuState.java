@@ -2,10 +2,10 @@ package org.example.controller.menu;
 
 import org.example.controller.action.ActionDraw;
 import org.example.model.Model;
-import org.example.model.MyShape;
-import org.example.model.ShapeFactory;
-import org.example.model.ShapeType;
-import org.example.model.fill.FillBehavior;
+import org.example.model.shape.MyShape;
+import org.example.model.shape.factory.ShapeFactory;
+import org.example.model.shape.factory.ShapeType;
+import org.example.model.shape.fill.FillBehavior;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
