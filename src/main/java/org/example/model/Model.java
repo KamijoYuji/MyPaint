@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 public class Model extends Subject {
     private MyShape currentShape;

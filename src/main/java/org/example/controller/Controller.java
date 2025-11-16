@@ -26,7 +26,6 @@ public class Controller {
         model = new Model();
 
         panel = new MyPanel(this);
-        // TODO: Поменять наблюдатель на более современную реализацию
         menuController = MenuController.getInstance(model);
         frame = new MyFrame();
         frame.setJMenuBar(menuController.getMenuBar());
