@@ -1,5 +1,7 @@
 package org.example.controller.menu;
 
+import org.example.controller.action.ActionDraw;
+import org.example.controller.action.ActionMove;
 import org.example.model.Model;
 import org.example.model.shape.factory.ShapeType;
 import org.example.model.shape.fill.Fill;
@@ -13,6 +15,7 @@ public class MenuController {
     private static MenuController instance;
     JMenuBar menu;
     MenuState menuState;
+    private Model model;
 
     public static MenuController getInstance(Model model) {
         if(instance == null)
@@ -21,14 +24,17 @@ public class MenuController {
     }
 
     private MenuController(Model model){
+        this.model = model;
         menuState = new MenuState(model,ShapeType.RECTANGLE, Color.RED, new Fill());
         JMenu shapeMenu = createShapeMenu();
         JMenu colorMenu = createColorMenu();
         JMenu fillMenu = createFillMenu();
+        JMenu actionMenu = createActionMenu();
         menu = new JMenuBar();
         menu.add(shapeMenu);
         menu.add(colorMenu);
         menu.add(fillMenu);
+        menu.add(actionMenu);
     }
 
     private JMenu createShapeMenu(){
@@ -97,6 +103,24 @@ public class MenuController {
         group.add(noFill);
 
         return fillMenu;
+    }
+
+    private JMenu createActionMenu(){
+
+        JMenu actionMenu = new JMenu("Draw");
+
+        ButtonGroup group = new ButtonGroup();
+        JRadioButtonMenuItem draw = new JRadioButtonMenuItem("Draw");
+        draw.addActionListener(e -> {menuState.setAppAction(new ActionDraw(menuState.getSelectedShape(),model)); actionMenu.setText("Draw");});
+        actionMenu.add(draw);
+        group.add(draw);
+
+        JRadioButtonMenuItem move = new JRadioButtonMenuItem("Move");
+        move.addActionListener(e -> {menuState.setAppAction(new ActionMove(menuState.getSelectedShape(),model)); actionMenu.setText("Draw");});
+        actionMenu.add(move);
+        group.add(move);
+
+        return actionMenu;
     }
 
     public void createShape(Point2D point) {

@@ -4,8 +4,7 @@ import org.example.model.shape.fill.Fill;
 import org.example.model.shape.fill.FillBehavior;
 import org.example.model.shape.fill.NoFill;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
@@ -78,5 +77,9 @@ public class MyShape implements Cloneable{
         fillBehavior.setShape(shape1);
 
         return new MyShape(this.color, shape1, fillBehavior);
+    }
+
+    public RectangularShape getShape() {
+        return shape;
     }
 }

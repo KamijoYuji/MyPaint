@@ -11,10 +11,13 @@ public class Model extends MyObservable {
     private MyShape currentShape;
     private final List<MyShape> shapeList = new ArrayList<>();
 
+    public List<MyShape> getShapeList() {
+        return shapeList;
+    }
+
     public void setMyShape(MyShape myShape)
     {
         this.currentShape = myShape;
-
     }
 
     public void changeShape(Point2D x, Point2D y) {
@@ -32,6 +35,10 @@ public class Model extends MyObservable {
     public void createCurrentShape(MyShape shape) {
         currentShape = shape;
         shapeList.add(shape);
+        notifyObservers();
+    }
+
+    public void update(){
         notifyObservers();
     }
 }
