@@ -1,4 +1,4 @@
-package org.example.controller.menu;
+package org.example.controller.action.menu;
 
 import org.example.controller.action.ActionDraw;
 import org.example.controller.action.ActionMove;
@@ -11,20 +11,41 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class MenuController {
-    private static MenuController instance;
+public class MenuCreator {
+    private static MenuCreator instance;
     JMenuBar menu;
     MenuState menuState;
     private Model model;
 
-    public static MenuController getInstance(Model model) {
+    public static MenuCreator getInstance() {
         if(instance == null)
-            instance = new MenuController(model);
+            instance = new MenuCreator();
         return instance;
     }
 
-    private MenuController(Model model){
+    public void setModel(Model model) {
         this.model = model;
+    }
+
+    public void setState(MenuState menuState) {
+        this.menuState = menuState;
+    }
+
+    private MenuCreator(){
+//
+//        menuState = new MenuState(model,ShapeType.RECTANGLE, Color.RED, new Fill());
+//        JMenu shapeMenu = createShapeMenu();
+//        JMenu colorMenu = createColorMenu();
+//        JMenu fillMenu = createFillMenu();
+//        JMenu actionMenu = createActionMenu();
+//        menu = new JMenuBar();
+//        menu.add(shapeMenu);
+//        menu.add(colorMenu);
+//        menu.add(fillMenu);
+//        menu.add(actionMenu);
+    }
+
+    public JMenuBar createMenuBar(){
         menuState = new MenuState(model,ShapeType.RECTANGLE, Color.RED, new Fill());
         JMenu shapeMenu = createShapeMenu();
         JMenu colorMenu = createColorMenu();
@@ -35,6 +56,8 @@ public class MenuController {
         menu.add(colorMenu);
         menu.add(fillMenu);
         menu.add(actionMenu);
+
+        return menu;
     }
 
     private JMenu createShapeMenu(){
@@ -116,7 +139,7 @@ public class MenuController {
         group.add(draw);
 
         JRadioButtonMenuItem move = new JRadioButtonMenuItem("Move");
-        move.addActionListener(e -> {menuState.setAppAction(new ActionMove(menuState.getSelectedShape(),model)); actionMenu.setText("Draw");});
+        move.addActionListener(e -> {menuState.setAppAction(new ActionMove(menuState.getSelectedShape(),model)); actionMenu.setText("Move");});
         actionMenu.add(move);
         group.add(move);
 

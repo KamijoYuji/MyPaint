@@ -1,4 +1,4 @@
-package org.example.controller.menu;
+package org.example.controller.action.menu;
 
 import org.example.controller.action.ActionDraw;
 import org.example.controller.action.ActionMove;

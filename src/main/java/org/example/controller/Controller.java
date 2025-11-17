@@ -1,6 +1,7 @@
 package org.example.controller;
 
-import org.example.controller.menu.MenuController;
+import org.example.controller.action.menu.MenuCreator;
+import org.example.controller.action.menu.MenuState;
 import org.example.model.Model;
 import org.example.view.MyFrame;
 import org.example.view.MyPanel;
@@ -13,7 +14,8 @@ public class Controller {
     private final Model model;
     private final MyFrame frame;
     private final MyPanel panel;
-    private final MenuController menuController;
+    MenuState menuState;
+    private MenuCreator menuCreator;
     public static Controller getInstance() {
         synchronized (Controller.class) {
             if (instance == null) {
@@ -26,18 +28,26 @@ public class Controller {
         model = new Model();
 
         panel = new MyPanel(this);
-        menuController = MenuController.getInstance(model);
+//        menuController = MenuCreator.getInstance(model);
+
         frame = new MyFrame();
-        frame.setJMenuBar(menuController.getMenuBar());
+//        frame.setJMenuBar(menuController.getMenuBar());
+
+        menuCreator = MenuCreator.getInstance();
+        menuCreator.setState(menuState);
+        menuCreator.setModel(model);
+        frame.setJMenuBar(menuCreator.createMenuBar());
+        frame.revalidate();
+
         frame.setPanel(panel);
         model.addObserver(panel);
     }
 
     public void stretchShape(Point2D point){
-        menuController.stretchShape(point);
+        menuCreator.stretchShape(point);
     }
     public void createShape(Point2D point){
-        menuController.createShape(point);
+        menuCreator.createShape(point);
     }
 
     public void draw(Graphics2D g2) {
