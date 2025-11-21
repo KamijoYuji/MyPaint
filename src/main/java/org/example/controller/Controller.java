@@ -28,15 +28,14 @@ public class Controller {
         model = new Model();
 
         panel = new MyPanel(this);
-//        menuController = MenuCreator.getInstance(model);
 
         frame = new MyFrame();
-//        frame.setJMenuBar(menuController.getMenuBar());
 
-        menuCreator = MenuCreator.getInstance();
+        menuCreator = MenuCreator.getInstance(frame);
         menuCreator.setState(menuState);
         menuCreator.setModel(model);
         frame.setJMenuBar(menuCreator.createMenuBar());
+        frame.add(menuCreator.createToolBar(), BorderLayout.SOUTH);
         frame.revalidate();
 
         frame.setPanel(panel);
