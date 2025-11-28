@@ -20,9 +20,9 @@ public class MenuCreator {
     private MenuState menuState;
     private Model model;
 
-    public static MenuCreator getInstance(MyFrame frame) {
+    public static MenuCreator getInstance() {
         if(instance == null)
-            instance = new MenuCreator(frame);
+            instance = new MenuCreator();
         return instance;
     }
 
@@ -34,7 +34,7 @@ public class MenuCreator {
         this.menuState = menuState;
     }
 
-    private MenuCreator(MyFrame frame){
+    private MenuCreator(){
 //
 //        menuState = new MenuState(model,ShapeType.RECTANGLE, Color.RED, new Fill());
 //        JMenu shapeMenu = createShapeMenu();
@@ -80,25 +80,21 @@ public class MenuCreator {
 
         URL shapeUrl = getClass().getClassLoader().getResource("ico/rectangular_16x16.png");
         ImageIcon shapeIco = shapeUrl == null ? null : new ImageIcon(shapeUrl);
-        JRadioButtonMenuItem shapeButton = new JRadioButtonMenuItem(shapeIco);
         AppCommand shapeCommand = new SwitchShape(menuState, ShapeType.RECTANGLE);
         menuItems.add(new CommandActionListener("Rectangular", shapeIco, shapeCommand));
 
         URL shapeUrl1 = getClass().getClassLoader().getResource("ico/ellipse_16x16.png");
         ImageIcon shapeIco1 = shapeUrl1 == null ? null : new ImageIcon(shapeUrl1);
-        JRadioButtonMenuItem shapeButton1 = new JRadioButtonMenuItem(shapeIco1);
         AppCommand shapeCommand1 = new SwitchShape(menuState, ShapeType.ELLIPSE);
         menuItems.add(new CommandActionListener("Ellipse", shapeIco1, shapeCommand1));
 
         URL fillUrl = getClass().getClassLoader().getResource("ico/fill_16x16.png");
         ImageIcon fillIco = fillUrl == null ? null : new ImageIcon(fillUrl);
-        JRadioButtonMenuItem fillButton = new JRadioButtonMenuItem(shapeIco);
         AppCommand fillCommand = new SwitchFill(menuState, new Fill());
         menuItems.add(new CommandActionListener("Fill", fillIco, fillCommand));
 
         URL actionUrl = getClass().getClassLoader().getResource("ico/draw_16x16.png");
         ImageIcon actionIco = actionUrl == null ? null : new ImageIcon(actionUrl);
-        JRadioButtonMenuItem actionButton = new JRadioButtonMenuItem(shapeIco);
         AppCommand actionCommand = new SwitchAction(menuState, new ActionDraw(menuState.getSelectedShape(),model));
         menuItems.add(new CommandActionListener("Action", actionIco, actionCommand));
 

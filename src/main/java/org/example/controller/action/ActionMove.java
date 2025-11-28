@@ -18,6 +18,11 @@ public class ActionMove implements AppAction{
     }
 
     @Override
+    public void setSampleShape(MyShape sampleShape) {
+        this.sampleShape = sampleShape;
+    }
+
+    @Override
     public void mousePressed(Point2D point) {
         firstPoint = point;
         shape = model.getShapeList()

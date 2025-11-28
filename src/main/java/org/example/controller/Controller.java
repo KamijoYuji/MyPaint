@@ -31,15 +31,15 @@ public class Controller {
 
         frame = new MyFrame();
 
-        menuCreator = MenuCreator.getInstance(frame);
+        menuCreator = MenuCreator.getInstance();
         menuCreator.setState(menuState);
         menuCreator.setModel(model);
         frame.setJMenuBar(menuCreator.createMenuBar());
         frame.add(menuCreator.createToolBar(), BorderLayout.SOUTH);
-        frame.revalidate();
 
         frame.setPanel(panel);
         model.addObserver(panel);
+        frame.revalidate();
     }
 
     public void stretchShape(Point2D point){
