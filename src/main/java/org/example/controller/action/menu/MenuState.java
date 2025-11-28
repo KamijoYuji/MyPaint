@@ -1,4 +1,4 @@
-package org.example.controller.menu;
+package org.example.controller.action.menu;
 
 import org.example.controller.action.ActionDraw;
 import org.example.controller.action.ActionMove;
@@ -15,7 +15,6 @@ public class MenuState {
     private FillBehavior fill;
     private Color color;
     private AppAction appAction;
-    private boolean appActionType;
     private MyShape selectedShape;
     private final Model model;
     private ShapeType type;
@@ -27,12 +26,10 @@ public class MenuState {
         this.color = color;
         selectedShape = ShapeFactory.createShape(color, type, fill);
         appAction = new ActionDraw(selectedShape, model);
-        appActionType = true;
     }
 
     public void setAppAction(AppAction appAction){
         this.appAction = appAction;
-        appActionType = appAction instanceof ActionDraw;
     }
     public MyShape getSelectedShape() {
         return selectedShape;
@@ -46,18 +43,18 @@ public class MenuState {
     public void setFill(FillBehavior fill) {
         this.fill = fill;
         selectedShape = ShapeFactory.createShape(color, type, fill);
-        appAction = !appActionType ? new ActionMove(selectedShape, model) : (new ActionDraw(selectedShape, model));
+        appAction.setSampleShape(selectedShape);
     }
 
     public void setColor(Color color) {
         this.color = color;
         selectedShape = ShapeFactory.createShape(color, type, fill);
-        appAction = !appActionType ? new ActionMove(selectedShape, model) : (new ActionDraw(selectedShape, model));
+        appAction.setSampleShape(selectedShape);
     }
 
     public void setSelectedShape(ShapeType type) {
         this.type = type;
         selectedShape = ShapeFactory.createShape(color, type, fill);
-        appAction = !appActionType ? new ActionMove(selectedShape, model) : (new ActionDraw(selectedShape, model));
+        appAction.setSampleShape(selectedShape);
     }
 }

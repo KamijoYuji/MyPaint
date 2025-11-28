@@ -1,7 +1,9 @@
 package org.example.controller.action;
 
+import org.example.controller.action.menu.MenuState;
 import org.example.model.Model;
 import org.example.model.shape.MyShape;
+import org.example.model.shape.factory.ShapeFactory;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -12,6 +14,11 @@ public class ActionDraw implements AppAction{
     private Point2D firstPoint;
     private Point2D secondPoint;
     private Model model;
+
+    @Override
+    public void setSampleShape(MyShape sampleShape) {
+        this.sampleShape = sampleShape;
+    }
 
     @Override
     public void mousePressed(Point2D point) {

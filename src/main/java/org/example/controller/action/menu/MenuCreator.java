@@ -1,4 +1,4 @@
-package org.example.controller.menu;
+package org.example.controller.action.menu;
 
 import org.example.controller.action.ActionDraw;
 import org.example.controller.action.ActionMove;
@@ -6,25 +6,49 @@ import org.example.model.Model;
 import org.example.model.shape.factory.ShapeType;
 import org.example.model.shape.fill.Fill;
 import org.example.model.shape.fill.NoFill;
+import org.example.view.MyFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.net.URL;
+import java.util.ArrayList;
 
-public class MenuController {
-    private static MenuController instance;
-    JMenuBar menu;
-    MenuState menuState;
+public class MenuCreator {
+    private static MenuCreator instance;
+    private JMenuBar menu;
+    private MenuState menuState;
     private Model model;
 
-    public static MenuController getInstance(Model model) {
+    public static MenuCreator getInstance() {
         if(instance == null)
-            instance = new MenuController(model);
+            instance = new MenuCreator();
         return instance;
     }
 
-    private MenuController(Model model){
+    public void setModel(Model model) {
         this.model = model;
+    }
+
+    public void setState(MenuState menuState) {
+        this.menuState = menuState;
+    }
+
+    private MenuCreator(){
+//
+//        menuState = new MenuState(model,ShapeType.RECTANGLE, Color.RED, new Fill());
+//        JMenu shapeMenu = createShapeMenu();
+//        JMenu colorMenu = createColorMenu();
+//        JMenu fillMenu = createFillMenu();
+//        JMenu actionMenu = createActionMenu();
+//        menu = new JMenuBar();
+//        menu.add(shapeMenu);
+//        menu.add(colorMenu);
+//        menu.add(fillMenu);
+//        menu.add(actionMenu);
+    }
+
+    public JMenuBar createMenuBar(){
         menuState = new MenuState(model,ShapeType.RECTANGLE, Color.RED, new Fill());
         JMenu shapeMenu = createShapeMenu();
         JMenu colorMenu = createColorMenu();
@@ -35,6 +59,47 @@ public class MenuController {
         menu.add(colorMenu);
         menu.add(fillMenu);
         menu.add(actionMenu);
+
+        return menu;
+    }
+
+    public JToolBar createToolBar(){
+        ArrayList<Action> subMenuItems = createToolBarItems();
+        JToolBar jToolBar = new JToolBar();
+        subMenuItems.forEach(jToolBar::add);
+
+        return jToolBar;
+    }
+    private ArrayList<Action> createToolBarItems(){
+        ArrayList<Action> menuItems = new ArrayList<>();
+        URL colorUrl = getClass().getClassLoader().getResource("ico/color_16x16.png");
+        ImageIcon colorIco = colorUrl == null ? null : new ImageIcon(colorUrl);
+        JRadioButtonMenuItem rgbButton = new JRadioButtonMenuItem(colorIco);
+        AppCommand colorCommand = new SwitchColor(menuState, false, null, rgbButton);
+        menuItems.add(new CommandActionListener("Color", colorIco, colorCommand));
+
+        URL shapeUrl = getClass().getClassLoader().getResource("ico/rectangular_16x16.png");
+        ImageIcon shapeIco = shapeUrl == null ? null : new ImageIcon(shapeUrl);
+        AppCommand shapeCommand = new SwitchShape(menuState, ShapeType.RECTANGLE);
+        menuItems.add(new CommandActionListener("Rectangular", shapeIco, shapeCommand));
+
+        URL shapeUrl1 = getClass().getClassLoader().getResource("ico/ellipse_16x16.png");
+        ImageIcon shapeIco1 = shapeUrl1 == null ? null : new ImageIcon(shapeUrl1);
+        AppCommand shapeCommand1 = new SwitchShape(menuState, ShapeType.ELLIPSE);
+        menuItems.add(new CommandActionListener("Ellipse", shapeIco1, shapeCommand1));
+
+        URL fillUrl = getClass().getClassLoader().getResource("ico/fill_16x16.png");
+        ImageIcon fillIco = fillUrl == null ? null : new ImageIcon(fillUrl);
+        AppCommand fillCommand = new SwitchFill(menuState, new Fill());
+        menuItems.add(new CommandActionListener("Fill", fillIco, fillCommand));
+
+        URL actionUrl = getClass().getClassLoader().getResource("ico/draw_16x16.png");
+        ImageIcon actionIco = actionUrl == null ? null : new ImageIcon(actionUrl);
+        AppCommand actionCommand = new SwitchAction(menuState, new ActionDraw(menuState.getSelectedShape(),model));
+        menuItems.add(new CommandActionListener("Action", actionIco, actionCommand));
+
+
+        return menuItems;
     }
 
     private JMenu createShapeMenu(){
@@ -116,7 +181,7 @@ public class MenuController {
         group.add(draw);
 
         JRadioButtonMenuItem move = new JRadioButtonMenuItem("Move");
-        move.addActionListener(e -> {menuState.setAppAction(new ActionMove(menuState.getSelectedShape(),model)); actionMenu.setText("Draw");});
+        move.addActionListener(e -> {menuState.setAppAction(new ActionMove(menuState.getSelectedShape(),model)); actionMenu.setText("Move");});
         actionMenu.add(move);
         group.add(move);
 
