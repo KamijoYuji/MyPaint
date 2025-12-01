@@ -5,9 +5,6 @@ import org.example.model.MyObserver;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 
 
@@ -21,18 +18,10 @@ public class MyPanel extends JPanel implements MyObserver {
 
     public MyPanel(Controller controller) {
         this.controller = controller;
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent arg0) {
-                controller.createShape(arg0.getPoint());
-            }
-        });
-        addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent arg0) {
-                controller.stretchShape(arg0.getPoint());
-            }
-        });
+        addMouseListener((MyMousePressedAdapter) arg0 ->
+                controller.createShape(arg0.getPoint()));
+        addMouseMotionListener((MyMouseDraggedAdapter) arg0 ->
+                controller.stretchShape(arg0.getPoint()));
     }
 
     @Override

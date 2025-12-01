@@ -6,37 +6,12 @@ import org.example.model.shape.fill.NoFill;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
-public class MyShape implements Cloneable{
+public class MyShape implements Cloneable {
     private final Color color;
     private RectangularShape shape;
-    private FillBehavior fb;
-
-    public MyShape(RectangularShape shape) {
-        this.shape = shape;
-        color = Color.GRAY;
-        fb = new Fill();
-        fb.setColor(color);
-        fb.setShape(shape);
-    }
-
-    public MyShape(Color color, RectangularShape shape) {
-        this.shape = shape;
-        this.color = color;
-        fb = new Fill();
-        fb.setColor(color);
-        fb.setShape(shape);
-    }
-
-    public MyShape() {
-        color = Color.BLUE;
-        shape = new Rectangle2D.Double();
-        fb = new Fill();
-        fb.setColor(color);
-        fb.setShape(shape);
-    }
+    private final FillBehavior fb;
 
     public MyShape(Color color, RectangularShape shape, FillBehavior fb) {
         this.color = color;
@@ -44,12 +19,6 @@ public class MyShape implements Cloneable{
         this.fb = fb;
         this.fb.setShape(shape);
         this.fb.setColor(color);
-    }
-
-    public void setFb(FillBehavior fb) {
-        this.fb = fb;
-        fb.setShape(shape);
-        fb.setColor(color);
     }
 
     public void setShape(RectangularShape shape) {
@@ -68,7 +37,7 @@ public class MyShape implements Cloneable{
         RectangularShape shape1 = (RectangularShape) this.shape.clone();
 
         FillBehavior fillBehavior;
-        if(this.fb instanceof Fill)
+        if (this.fb instanceof Fill)
             fillBehavior = new Fill();
         else
             fillBehavior = new NoFill();
