@@ -6,6 +6,21 @@ import org.example.model.shape.MyShape;
 import java.awt.geom.Point2D;
 
 public class ActionMove implements AppAction{
+    @Override
+    public void execute() {
+
+    }
+
+    @Override
+    public void unexecute() {
+
+    }
+
+    @Override
+    public AppAction cloneAction() {
+        return null;
+    }
+
     private MyShape sampleShape;
     private MyShape shape;
     private Point2D firstPoint;
