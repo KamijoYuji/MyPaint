@@ -16,6 +16,21 @@ public class ActionDraw implements AppAction{
     private final Model model;
 
     @Override
+    public void execute() {
+
+    }
+
+    @Override
+    public void unexecute() {
+
+    }
+
+    @Override
+    public AppAction cloneAction() {
+        return null;
+    }
+
+    @Override
     public void setSampleShape(MyShape sampleShape) {
         this.sampleShape = sampleShape;
     }
