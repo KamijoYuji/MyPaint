@@ -1,7 +1,6 @@
 package org.example.controller.action.menu;
 
 import org.example.controller.action.ActionDraw;
-import org.example.controller.action.ActionMove;
 import org.example.controller.action.AppAction;
 import org.example.model.Model;
 import org.example.model.shape.MyShape;
@@ -16,13 +15,11 @@ public class MenuState {
     private Color color;
     private AppAction appAction;
     private MyShape selectedShape;
-    private final Model model;
     private ShapeType type;
 
     public MenuState(Model model, ShapeType type, Color color, FillBehavior fill){
         this.type = type;
         this.fill = fill;
-        this.model = model;
         this.color = color;
         selectedShape = ShapeFactory.createShape(color, type, fill);
         appAction = new ActionDraw(selectedShape, model);

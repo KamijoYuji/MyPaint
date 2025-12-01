@@ -10,7 +10,7 @@ public class ActionMove implements AppAction{
     private MyShape shape;
     private Point2D firstPoint;
     private Point2D secondPoint;
-    private Model model;
+    private final Model model;
 
     public ActionMove(MyShape sampleShape, Model model) {
         this.sampleShape = sampleShape;

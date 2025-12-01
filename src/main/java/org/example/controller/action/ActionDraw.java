@@ -13,7 +13,7 @@ public class ActionDraw implements AppAction{
     private MyShape shape;
     private Point2D firstPoint;
     private Point2D secondPoint;
-    private Model model;
+    private final Model model;
 
     @Override
     public void setSampleShape(MyShape sampleShape) {

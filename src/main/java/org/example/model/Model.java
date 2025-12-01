@@ -15,11 +15,6 @@ public class Model extends MyObservable {
         return shapeList;
     }
 
-    public void setMyShape(MyShape myShape)
-    {
-        this.currentShape = myShape;
-    }
-
     public void changeShape(Point2D x, Point2D y) {
         if(currentShape!=null)
             currentShape.setFrame(x, y);

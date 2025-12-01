@@ -12,10 +12,7 @@ import java.awt.geom.Point2D;
 public class Controller {
     private static Controller instance;
     private final Model model;
-    private final MyFrame frame;
-    private final MyPanel panel;
-    MenuState menuState;
-    private MenuCreator menuCreator;
+    private final MenuCreator menuCreator;
     public static Controller getInstance() {
         synchronized (Controller.class) {
             if (instance == null) {
@@ -27,12 +24,11 @@ public class Controller {
     private Controller() {
         model = new Model();
 
-        panel = new MyPanel(this);
+        MyPanel panel = new MyPanel(this);
 
-        frame = new MyFrame();
+        MyFrame frame = new MyFrame();
 
         menuCreator = MenuCreator.getInstance();
-        menuCreator.setState(menuState);
         menuCreator.setModel(model);
         frame.setJMenuBar(menuCreator.createMenuBar());
         frame.add(menuCreator.createToolBar(), BorderLayout.SOUTH);
