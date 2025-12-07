@@ -17,6 +17,10 @@ public class MenuState {
     private MyShape selectedShape;
     private ShapeType type;
 
+    public AppAction getAppAction() {
+        return appAction;
+    }
+
     public MenuState(Model model, ShapeType type, Color color, FillBehavior fill){
         this.type = type;
         this.fill = fill;
@@ -53,5 +57,9 @@ public class MenuState {
         this.type = type;
         selectedShape = ShapeFactory.createShape(color, type, fill);
         appAction.setSampleShape(selectedShape);
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

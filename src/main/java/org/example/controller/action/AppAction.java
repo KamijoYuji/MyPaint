@@ -11,4 +11,10 @@ public interface AppAction {
     void mouseDragged(Point2D point);
 
     void setSampleShape(MyShape sampleShape);
+
+    void execute();
+
+    void unexecute();
+    AppAction cloneAction();
+
 }

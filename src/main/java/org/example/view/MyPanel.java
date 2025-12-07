@@ -5,6 +5,7 @@ import org.example.model.MyObserver;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 
@@ -14,14 +15,19 @@ public class MyPanel extends JPanel implements MyObserver {
     @Override
     public void changed() {
         repaint();
+        controller.updateUndoRedoButtons();
     }
 
     public MyPanel(Controller controller) {
         this.controller = controller;
         addMouseListener((MyMousePressedAdapter) arg0 ->
                 controller.createShape(arg0.getPoint()));
-        addMouseMotionListener((MyMouseDraggedAdapter) arg0 ->
-                controller.stretchShape(arg0.getPoint()));
+        addMouseListener((MyMouseReleasedAdapter) arg0 -> {
+            controller.finishDrawing(arg0.getPoint());
+            controller.updateUndoRedoButtons();
+        });
+                addMouseMotionListener((MyMouseDraggedAdapter) arg0 ->
+                        controller.stretchShape(arg0.getPoint()));
     }
 
     @Override

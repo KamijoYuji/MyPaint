@@ -1,28 +1,49 @@
 package org.example.controller.action.menu;
 
+import org.example.controller.Controller;
+
+
 import javax.swing.*;
 import java.awt.*;
 
 public class SwitchColor implements AppCommand {
-    private final MenuState menuState;
-    private final boolean useDefault;
-    private final Color defaultColor;
-    private final JRadioButtonMenuItem radioButton;
+    private MenuState menuState;
+    private boolean useDefault;
+    private Color defaultColor;
+    private JRadioButtonMenuItem radioButton;
+    private Controller controller;
 
-    public SwitchColor(MenuState menuState, boolean useDefault, Color defaultColor, JRadioButtonMenuItem radioButton) {
+    public SwitchColor(MenuState menuState, boolean useDefault, Color defaultColor, JRadioButtonMenuItem radioButton, Controller controller) {
         this.menuState = menuState;
         this.useDefault = useDefault;
         this.defaultColor = defaultColor;
         this.radioButton = radioButton;
+        this.controller = controller;
     }
 
     @Override
     public void execute() {
-        radioButton.setSelected(!useDefault);
-        Color color = useDefault
-                ? defaultColor
-                : JColorChooser.showDialog(null, "Выбор цвета", Color.BLACK);
-        menuState.setColor(color);
-    }
+        if (radioButton != null) {
+            radioButton.setSelected(!useDefault);
+        }
 
+        Color color;
+        if (useDefault) {
+            color = defaultColor;
+        } else {
+            Color currentColor = menuState.getColor();
+            color = JColorChooser.showDialog(null, "Выбор цвета",
+                    currentColor != null ? currentColor : Color.BLACK);
+            if (color == null){
+                return;
+            }
+        }
+
+        menuState.setColor(color);
+
+        if (controller != null){
+            controller.setCurrentColor(color);
+        }
+    }
 }
+

@@ -36,4 +36,12 @@ public class Model extends MyObservable {
     public void update(){
         notifyObservers();
     }
+
+    public MyShape getLastShape() {
+        return shapeList.get(shapeList.size()-1);
+    }
+
+    public void removeLastShape() {
+        shapeList.remove(shapeList.size()-1);
+    }
 }

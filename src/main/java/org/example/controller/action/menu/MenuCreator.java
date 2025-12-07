@@ -1,7 +1,9 @@
 package org.example.controller.action.menu;
 
+import org.example.controller.Controller;
 import org.example.controller.action.ActionDraw;
 import org.example.controller.action.ActionMove;
+import org.example.controller.action.state.UndoMachine;
 import org.example.model.Model;
 import org.example.model.shape.factory.ShapeType;
 import org.example.model.shape.fill.Fill;
@@ -17,19 +19,31 @@ public class MenuCreator {
     private static MenuCreator instance;
     private JMenuBar menu;
     private MenuState menuState;
+    private Controller mainController;
     private Model model;
+    private UndoMachine undoMachine;
 
-    public static MenuCreator getInstance() {
+    // Храним ссылки на элементы меню для обновления
+    private CommandActionListener undoToolbarAction;
+    private CommandActionListener redoToolbarAction;
+
+
+    public static MenuCreator getInstance(Controller controller) {
         if (instance == null)
-            instance = new MenuCreator();
+            instance = new MenuCreator(controller);
         return instance;
+    }
+
+    public MenuState getMenuState() {
+        return menuState;
     }
 
     public void setModel(Model model) {
         this.model = model;
     }
 
-    private MenuCreator() {
+    private MenuCreator(Controller controller) {
+        mainController = controller;
     }
 
     public JMenuBar createMenuBar() {
@@ -55,44 +69,74 @@ public class MenuCreator {
         return jToolBar;
     }
 
+    public void updateMenuButtons() {
+        if (undoToolbarAction != null) {
+            undoToolbarAction.setEnabled(undoMachine != null && undoMachine.isEnableUndo());
+        }
+        if (redoToolbarAction != null) {
+            redoToolbarAction.setEnabled(undoMachine != null && undoMachine.isEnableRedo());
+        }
+    }
+
     private ArrayList<Action> createToolBarItems() {
         ArrayList<Action> menuItems = new ArrayList<>();
+
+        // Кнопка выбора цвета
         URL colorUrl = getClass().getClassLoader().getResource("ico/color_16x16.png");
         ImageIcon colorIco = colorUrl == null ? null : new ImageIcon(colorUrl);
         JRadioButtonMenuItem rgbButton = new JRadioButtonMenuItem(colorIco);
-        AppCommand colorCommand = new SwitchColor(menuState, false, Color.BLUE, rgbButton);
-        menuItems.add(new CommandActionListener("Color", colorIco, colorCommand));
+        AppCommand colorCommand = new SwitchColor(menuState,false, null, rgbButton, mainController);
+        menuItems.add(new CommandActionListener("Цвет", colorIco, colorCommand));
 
-        URL shapeUrl = getClass().getClassLoader().getResource("ico/rectangular_16x16.png");
-        ImageIcon shapeIco = shapeUrl == null ? null : new ImageIcon(shapeUrl);
-        AppCommand shapeCommand = new SwitchShape(menuState, ShapeType.RECTANGLE, null);
-        menuItems.add(new CommandActionListener("Rectangular", shapeIco, shapeCommand));
+        // Кнопка режима рисования
+        URL drawUrl = getClass().getClassLoader().getResource("ico/draw_16x16.png");
+        ImageIcon drawIco = drawUrl == null ? null : new ImageIcon(drawUrl);
+        AppCommand drawToolCommand = new SwitchAction(mainController, new ActionDraw(menuState.getSelectedShape(), model));
+        CommandActionListener drawToolAction = new CommandActionListener("Рисование", drawIco, drawToolCommand);
+        menuItems.add(drawToolAction);
 
-        URL shapeUrl1 = getClass().getClassLoader().getResource("ico/ellipse_16x16.png");
-        ImageIcon shapeIco1 = shapeUrl1 == null ? null : new ImageIcon(shapeUrl1);
-        AppCommand shapeCommand1 = new SwitchShape(menuState, ShapeType.ELLIPSE, null);
-        menuItems.add(new CommandActionListener("Ellipse", shapeIco1, shapeCommand1));
+        // Кнопка режима перемещения
+        URL moveUrl = getClass().getClassLoader().getResource("ico/move_16x16.png");
+        ImageIcon moveIco = moveUrl == null ? null : new ImageIcon(moveUrl);
+        AppCommand moveToolCommand = new SwitchAction(mainController, new ActionMove(menuState.getSelectedShape(), model));
+        CommandActionListener moveToolAction = new CommandActionListener("Перемещение", moveIco, moveToolCommand);
+        menuItems.add(moveToolAction);
 
+        // Кнопка заливки
         URL fillUrl = getClass().getClassLoader().getResource("ico/fill_16x16.png");
         ImageIcon fillIco = fillUrl == null ? null : new ImageIcon(fillUrl);
-        AppCommand fillCommand = new SwitchFill(menuState, new Fill());
-        menuItems.add(new CommandActionListener("Fill", fillIco, fillCommand));
+        AppCommand fillToolCommand = new SwitchFill(menuState, new Fill());
+        CommandActionListener fillToolAction = new CommandActionListener("С заливкой", fillIco, fillToolCommand);
+        menuItems.add(fillToolAction);
 
+        // Кнопка без заливки
         URL noFillUrl = getClass().getClassLoader().getResource("ico/no_fill_16x16.png");
-        ImageIcon noFillIco = fillUrl == null ? null : new ImageIcon(noFillUrl);
-        AppCommand noFillCommand = new SwitchFill(menuState, new NoFill());
-        menuItems.add(new CommandActionListener("Fill", noFillIco, noFillCommand));
+        ImageIcon noFillIco = noFillUrl == null ? null : new ImageIcon(noFillUrl);
+        AppCommand noFillToolCommand = new SwitchFill(menuState, new NoFill());
+        CommandActionListener noFillToolAction = new CommandActionListener("Без заливки",noFillIco, noFillToolCommand);
+        menuItems.add(noFillToolAction);
 
-        URL actionUrl = getClass().getClassLoader().getResource("ico/draw_16x16.png");
-        ImageIcon actionIco = actionUrl == null ? null : new ImageIcon(actionUrl);
-        AppCommand actionCommand = new SwitchAction(menuState, new ActionDraw(menuState.getSelectedShape(), model));
-        menuItems.add(new CommandActionListener("Action", actionIco, actionCommand));
+        // Кнопка Undo
+        URL undoToolbarUrl = getClass().getClassLoader().getResource("ico/undo_16x16.png");
+        ImageIcon undoToolbarIco = undoToolbarUrl == null ? null : new ImageIcon(undoToolbarUrl);
+        AppCommand undoToolbarCommand = new SwitchUndo(undoMachine);
+        undoToolbarAction = new CommandActionListener("Отменить", undoToolbarIco, undoToolbarCommand);
+        undoToolbarAction.setEnabled(false); // Изначально выключена
+        menuItems.add(undoToolbarAction);
 
-        URL moveUrl = getClass().getClassLoader().getResource("ico/move_16x16.png");
-        ImageIcon moveIco = actionUrl == null ? null : new ImageIcon(moveUrl);
-        AppCommand moveCommand = new SwitchAction(menuState, new ActionMove(menuState.getSelectedShape(), model));
-        menuItems.add(new CommandActionListener("Action", moveIco, moveCommand));
+        // Кнопка Redo
+        URL redoToolbarUrl = getClass().getClassLoader().getResource("ico/redo_16x16.png");
+        ImageIcon redoToolbarIco = redoToolbarUrl == null ? null : new ImageIcon(redoToolbarUrl);
+        AppCommand redoToolbarCommand = new SwitchRedo(undoMachine);
+        redoToolbarAction = new CommandActionListener("Повторить", redoToolbarIco, redoToolbarCommand);
+        redoToolbarAction.setEnabled(false); // Изначально выключена
+        menuItems.add(redoToolbarAction);
 
+        // Передаем слушатели в UndoMachine
+        if (undoMachine != null) {
+            undoMachine.setUndoActionListener(undoToolbarAction);
+            undoMachine.setRedoActionListener(redoToolbarAction);
+        }
 
         return menuItems;
     }
@@ -200,6 +244,7 @@ public class MenuCreator {
         draw.addActionListener(e -> {
             menuState.setAppAction(new ActionDraw(menuState.getSelectedShape(), model));
             actionMenu.setText("Draw");
+            mainController.setDrawingAction();
         });
         actionMenu.add(draw);
         group.add(draw);
@@ -208,6 +253,7 @@ public class MenuCreator {
         move.addActionListener(e -> {
             menuState.setAppAction(new ActionMove(menuState.getSelectedShape(), model));
             actionMenu.setText("Move");
+            mainController.setMovingAction();
         });
         actionMenu.add(move);
         group.add(move);
@@ -221,5 +267,13 @@ public class MenuCreator {
 
     public void stretchShape(Point2D point) {
         menuState.stretchShape(point);
+    }
+
+    public void setColor(Color color) {
+        menuState.setColor(color);
+    }
+
+    public void setUndoMachine(UndoMachine undoMachine) {
+        this.undoMachine = undoMachine;
     }
 }
